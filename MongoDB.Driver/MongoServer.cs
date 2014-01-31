@@ -22,6 +22,7 @@ using System.Text;
 using System.Threading;
 using MongoDB.Bson;
 using MongoDB.Driver.Internal;
+using System.Security;
 
 namespace MongoDB.Driver
 {
@@ -334,13 +335,16 @@ namespace MongoDB.Driver
 
         private readonly string _name = Guid.NewGuid().ToString("N");
 
+        
         private Request CurrentRequest
         {
+            [SecuritySafeCritical]
             get
             {
                 return CallContext.LogicalGetData(_name) as Request;
             }
 
+            [SecuritySafeCritical]
             set
             {
                 CallContext.LogicalSetData(_name, value);
